@@ -9,7 +9,7 @@
 #include <GL/glx.h>
 #include <sys/time.h>
 
-#include "VW-new-beetle.h"
+#include "dummy.h"
 #include "func.h"
 
 int windowwidth;
@@ -22,15 +22,6 @@ void SetUpLights();
 void DrawScene(float );
 float GetTimeInterval();
 void Resize(int , int);
-
-
-GLubyte rojo[] = {255, 0, 0, 255};
-GLubyte verde[] = {0, 255, 0, 255};
-GLubyte azul[] = {0, 0, 255, 255};
-GLubyte blanco[] = {255, 255, 255, 255};
-GLubyte negro[] = {0, 0, 0, 255};
-GLubyte naranja[] = {255, 255, 0, 255};
-GLubyte morado[] = {255, 0, 255, 255};
 
 
 int main (int argc, char *argv[]) {
@@ -138,7 +129,7 @@ void SetUpOpenGL() {
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-  glColor4f(1, 1, 1, 1);
+  //glColor4f(1, 1, 1, 1);
 }
 
 void SetUpLights() {
@@ -172,7 +163,7 @@ void DrawScene(float dT) {
 
   if (!pause)
     angle += rotateSpeed * dT;
-  glTranslatef(0.0,-20.0,-20.0);
+  glTranslatef(0.0,-5.0,-5.0);
   glRotatef(angle, 0, 0, 1);
   DrawAllMeshes();
 }

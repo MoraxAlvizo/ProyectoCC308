@@ -6,6 +6,21 @@
 GLuint *vbo;
 GLuint *vinx;
 
+GLubyte rojo[] = {255, 0, 0, 255};
+GLubyte verde[] = {0, 255, 0, 255};
+GLubyte azul[] = {0, 0, 255, 255};
+GLubyte blanco[] = {255, 255, 255, 255};
+GLubyte negro[] = {0, 0, 0, 255};
+GLubyte naranja[] = {255, 255, 0, 255};
+GLubyte morado[] = {255, 0, 255, 255};
+GLubyte piel[] = {253, 199, 121, 255};
+GLubyte gris[] = {59, 59, 59, 255};
+GLubyte pelirojo[] = {166,  14, 14, 255};
+GLubyte grisBoton[] = {140, 140, 140, 255};
+GLubyte grisMochila[] = {200,200,200,255};
+GLubyte cafe[]={152,64,15,255};
+
+
 void InitMesh() {
   unsigned int i;
 
@@ -66,8 +81,98 @@ void DrawMesh(unsigned int index, int apply_transformations) {
 void DrawAllMeshes()
 {
 	unsigned int i;
-
+    //glColor4f(1, 1, 0, 1);
 	for (i=0; i<OBJECTS_COUNT; i++) {
+
+	    switch(i){
+
+        case PLANE_009:
+        glColor4ubv(grisBoton);
+        break;
+        case PLANE_008:
+        glColor4ubv(grisBoton);
+        break;
+        case PLANE_007:
+        glColor4ubv(azul);
+        break;
+        case PLANE_006:
+        glColor4ubv(grisBoton);
+        break;
+        case PLANE_005:
+        glColor4ubv(grisBoton);
+        break;
+        case PLANE_004:
+        glColor4ubv(grisMochila);
+        break;
+        case CIRCLE_012:
+        glColor4ubv(gris);
+        break;
+        case CUBE_006 :
+        glColor4ubv(piel);
+        break;
+        case CUBE_005 :
+        glColor4ubv(grisMochila);
+        break;
+        case PLANE_003 :
+        glColor4ubv(cafe);
+        break;
+        case PLANE_002 :
+        glColor4ubv(cafe);
+        break;
+        case CUBE_004  :
+        glColor4ubv(pelirojo);
+        break;
+        case CUBE_003 :
+        glColor4ubv(piel);
+        break;
+        case CIRCLE_010 :
+        glColor4ubv(grisBoton);
+        break;
+        case CIRCLE_009 :
+        glColor4ubv(grisBoton);
+        break;
+        case CIRCLE_008 :
+        glColor4ubv(grisBoton);
+        break;
+        case CIRCLE_007 :
+        glColor4ubv(grisBoton);
+        break;
+        case CIRCLE_004 :
+        glColor4ubv(gris);
+        break;
+        case CUBE_002 :
+        glColor4ubv(pelirojo);
+        break;
+        case CUBE_000 :
+        glColor4ubv(blanco);//ojos
+        break;
+        case CIRCLE_003 :
+        glColor4ubv(grisBoton);
+        break;
+        case CIRCLE_002 :
+        glColor4ubv(grisBoton);
+        break;
+        case HELIX :
+        glColor4ubv(naranja);
+        break;
+        case CIRCLE :
+        glColor4ubv(gris);
+        break;
+        case CUBE_001 :
+        glColor4ubv(piel);
+        break;
+        case CIRCLE_001 :
+        glColor4ubv(pelirojo);
+        break;
+        case PLANE_001 :
+        glColor4ubv(naranja);
+        break;
+        case PLANE :
+        glColor4ubv(pelirojo);
+        break;
+        default: continue;
+
+	    }
 		DrawMesh(i, 1);
 	}
 }
