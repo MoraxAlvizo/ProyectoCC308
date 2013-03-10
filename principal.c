@@ -9,11 +9,12 @@ int rotate=0;
 
 int zoom_flag=GL_FALSE,rotate_flag=GL_FALSE ;
 
-float langle_count = 30 ,
-      langle_count2 = 0 ,
+float langle_count = 30 , // ANGULO PIERNA IZQUIERDA
+      langle_count2 = 0 , // ANGULO PIERNA IZQUIERDA2
       rangle_count = -30 ,
       rangle_count2 = 0 ,
       zoom =0.0f;
+      //ANGULO DE LAS PIERNAS
 
 void TimerFunction(){
   animar_base();
@@ -71,10 +72,12 @@ void special(int key, int x, int y){
 void init(){
   const GLubyte* informacion;
 
-   glClearColor(1.0, 1.0, 1.0, 0.0) ;
-   glShadeModel(GL_FLAT) ;
+   glClearColor(0, 0, 0, 0) ; // color del fondo
+   glShadeModel( GL_SMOOTH) ; // aun no se que hace
+   //GL_FLAT = plano
 
    informacion = glGetString(GL_VENDOR) ;
+   //glGetString = return a string describing the current GL connection
    printf("VENDOR : %s\n", informacion) ;
    informacion = glGetString(GL_RENDERER) ;
    printf("RENDERER : %s\n", informacion) ;
@@ -82,6 +85,31 @@ void init(){
    printf("EXTENSIONS : %s\n", informacion) ;
    informacion = glGetString(GL_VERSION) ;
    printf("VERSION : %s\n", informacion) ;
+
+   /*
+GL_VENDOR
+
+        Returns the company responsible for this GL implementation.
+        This name does not change from release to release.
+GL_RENDERER
+
+        Returns the name of the renderer.
+        This name is typically specific to a particular configuration of a hardware
+        platform.
+        It does not change from release to release.
+  GL_VERSION
+        Returns a version or release number.
+  GL_SHADING_LANGUAGE_VERSION
+        Returns a version or release number for the shading language.
+        glGetStringi returns a pointer to a static string
+        indexed by index.
+        name can be one of the following:
+  GL_EXTENSIONS
+       For glGetStringi only, returns the extension string
+       supported by the implementation at index.
+
+
+   */
 
    angulos_caminado[0][3] = langle_count ;
    angulos_caminado[1][3] = rangle_count ;
@@ -124,12 +152,11 @@ void reshape(int w, int h){
 // =============== main(argc,argv) ===================
 
 int main(int argc, char** argv){
-  glutInit(&argc, argv) ;
-  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB) ;
-  glutInitWindowSize(400, 400) ;
-  glutInitWindowPosition(100, 100) ;
-  glutCreateWindow("Segundo Ejemplo : Piernas en movimiento") ;
-
+  glutInit(&argc, argv) ;// inicializar la libreria glut
+  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB) ;// inicializa el display
+  glutInitWindowSize(500,500) ; // tamaño
+  glutInitWindowPosition(100, 100) ;// posicion
+  glutCreateWindow("Segundo Ejemplo : Piernas en movimiento") ;// creacion de una ventana
   init() ;
 
   glutDisplayFunc(display);

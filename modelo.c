@@ -22,13 +22,13 @@ double mostrar_movimiento_base(double langle_up, double langle_lo, double rangle
   resultado1 = (ALTURA_PIERNA_SUPERIOR + 2*TAMANHO_ARTICULACION_PIERNA_SUPERIOR) * cos(radianes_superior) ;
   resultado2 = (ALTURA_PIERNA_INFERIOR + 2*(TAMANHO_ARTICULACION_PIERNA_INFERIOR+TAMANHO_ARTICULACION_PIE)+ALTURA_PIE)* cos(radianes_inferior) ;
   primer_resultado = ALTURA_PIERNA - (resultado1 + resultado2) ;
-  
+
   radianes_superior = (PI*rangle_up)/180.0 ;
   radianes_inferior = (PI*rangle_lo-rangle_up)/180.0 ;
   resultado1 = (ALTURA_PIERNA_SUPERIOR + 2*TAMANHO_ARTICULACION_PIERNA_SUPERIOR) * cos(radianes_superior) ;
   resultado2 = (ALTURA_PIERNA_INFERIOR + 2*(TAMANHO_ARTICULACION_PIERNA_INFERIOR+TAMANHO_ARTICULACION_PIE)+ALTURA_PIE)* cos(radianes_inferior) ;
   segundo_resultado = ALTURA_PIERNA - (resultado1 + resultado2) ;
-  
+
   if (primer_resultado <= segundo_resultado) return (- primer_resultado) ;
   else return (- segundo_resultado) ;
 }
@@ -46,17 +46,17 @@ void animar_base(){
     r_upleg_dif = 5 ;
     l_loleg_dif = 15 ;
     r_loleg_dif = 5 ;
-    
+
     l_upleg_add = l_upleg_dif / FRAMES ;
     r_upleg_add = r_upleg_dif / FRAMES ;
     l_loleg_add = l_loleg_dif / FRAMES ;
     r_loleg_add = r_loleg_dif / FRAMES ;
-    
+
     angulos_caminado[0][3] += r_upleg_add ;
     angulos_caminado[1][3] += l_upleg_add ;
     angulos_caminado[0][4] += r_loleg_add ;
     angulos_caminado[1][4] += l_loleg_add ;
-    
+
     langle_count  -= l_upleg_add ;
     langle_count2 -= l_loleg_add ;
     rangle_count -= r_upleg_add ;
@@ -73,17 +73,17 @@ void animar_base(){
     r_upleg_dif = -65 ;
     l_loleg_dif = -15 ;
     r_loleg_dif = 85 ;
-    
+
     l_upleg_add = l_upleg_dif / FRAMES ;
     r_upleg_add = r_upleg_dif / FRAMES ;
     l_loleg_add = l_loleg_dif / FRAMES ;
     r_loleg_add = r_loleg_dif / FRAMES ;
-    
+
     angulos_caminado[0][3] += r_upleg_add ;
     angulos_caminado[1][3] += l_upleg_add ;
     angulos_caminado[0][4] += r_loleg_add ;
     angulos_caminado[1][4] += l_loleg_add ;
-    
+
     langle_count  -= l_upleg_add ;
     langle_count2 -= l_loleg_add ;
     rangle_count -= r_upleg_add ;
@@ -100,7 +100,7 @@ void animar_base(){
     r_upleg_dif = -25 ;
     l_loleg_dif = 10 ;
     r_loleg_dif = -40 ;
-    
+
     l_upleg_add = l_upleg_dif / FRAMES ;
     r_upleg_add = r_upleg_dif / FRAMES ;
     l_loleg_add = l_loleg_dif / FRAMES ;
@@ -110,7 +110,7 @@ void animar_base(){
     angulos_caminado[1][3] += l_upleg_add ;
     angulos_caminado[0][4] += r_loleg_add ;
     angulos_caminado[1][4] += l_loleg_add ;
-    
+
     langle_count  -= l_upleg_add ;
     langle_count2 -= l_loleg_add ;
     rangle_count -= r_upleg_add ;
@@ -127,12 +127,12 @@ void animar_base(){
     r_upleg_dif = 25 ;
     l_loleg_dif = -10 ;
     r_loleg_dif = -50 ;
-    
+
     l_upleg_add = l_upleg_dif / FRAMES ;
     r_upleg_add = r_upleg_dif / FRAMES ;
     l_loleg_add = l_loleg_dif / FRAMES ;
     r_loleg_add = r_loleg_dif / FRAMES ;
-    
+
     angulos_caminado[0][3] += r_upleg_add ;
     angulos_caminado[1][3] += l_upleg_add ;
     angulos_caminado[0][4] += r_loleg_add ;
@@ -154,17 +154,17 @@ void animar_base(){
     r_upleg_dif = 15 ;
     l_loleg_dif = 5 ;
     r_loleg_dif = 15 ;
-    
+
     l_upleg_add = l_upleg_dif / FRAMES ;
     r_upleg_add = r_upleg_dif / FRAMES ;
     l_loleg_add = l_loleg_dif / FRAMES ;
     r_loleg_add = r_loleg_dif / FRAMES ;
-    
+
     angulos_caminado[0][3] += r_upleg_add ;
     angulos_caminado[1][3] += l_upleg_add ;
     angulos_caminado[0][4] += r_loleg_add ;
     angulos_caminado[1][4] += l_loleg_add ;
-    
+
     langle_count  += r_upleg_add ;
     langle_count2 += r_loleg_add ;
     rangle_count -= r_upleg_add ;
@@ -181,17 +181,17 @@ void animar_base(){
     r_upleg_dif = 20 ;
     l_loleg_dif = 85 ;
     r_loleg_dif = -15 ;
-    
+
     l_upleg_add = l_upleg_dif / FRAMES ;
     r_upleg_add = r_upleg_dif / FRAMES ;
     l_loleg_add = l_loleg_dif / FRAMES ;
     r_loleg_add = r_loleg_dif / FRAMES ;
-    
+
     angulos_caminado[0][3] += r_upleg_add ;
     angulos_caminado[1][3] += l_upleg_add ;
     angulos_caminado[0][4] += r_loleg_add ;
     angulos_caminado[1][4] += l_loleg_add ;
-    
+
     langle_count  += r_upleg_add ;
     langle_count2 += r_loleg_add ;
     rangle_count -= r_upleg_add ;
@@ -208,17 +208,17 @@ void animar_base(){
     r_upleg_dif = 5 ;
     l_loleg_dif = -40 ;
     r_loleg_dif = 10 ;
-    
+
     l_upleg_add = l_upleg_dif / FRAMES ;
     r_upleg_add = r_upleg_dif / FRAMES ;
     l_loleg_add = l_loleg_dif / FRAMES ;
     r_loleg_add = r_loleg_dif / FRAMES ;
-    
+
     angulos_caminado[0][3] += r_upleg_add ;
     angulos_caminado[1][3] += l_upleg_add ;
     angulos_caminado[0][4] += r_loleg_add ;
     angulos_caminado[1][4] += l_loleg_add ;
-    
+
     langle_count  += r_upleg_add ;
     langle_count2 += r_loleg_add ;
     rangle_count -= r_upleg_add ;
@@ -245,7 +245,7 @@ void animar_base(){
     angulos_caminado[1][3] += l_upleg_add ;
     angulos_caminado[0][4] += r_loleg_add ;
     angulos_caminado[1][4] += l_loleg_add ;
-		
+
     langle_count  += r_upleg_add ;
     langle_count2 += r_loleg_add ;
     rangle_count -= r_upleg_add ;
@@ -276,7 +276,7 @@ void animar_base(){
 	break ;
       }
   }
-  
+
   if (rotate_flag){
     rotate = (rotate + 1) % 360 ;
   }

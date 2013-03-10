@@ -1,122 +1,206 @@
-#include <GL/glut.h>
-#include <math.h>
 #include <stdio.h>
-#include <string.h>
-#define PI 3.141592f
+#include <stdlib.h>
 
-bool click;
-int raton[2];
+#define GL_GLEXT_PROTOTYPES
 
-class Bola {
-public:
-   float pos[3], vel[2];
-   int toques, record, timer;
-   char puntos[40];
-   bool pausa;
+#include <SDL.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/glx.h>
+#include <sys/time.h>
 
-   void Pintar() {
-      glPushMatrix();
-      glTranslatef(pos[0],pos[1],pos[2]);
-      glColor3f(1,1,1);
-      glBegin(GL_TRIANGLE_FAN);
-         glVertex3f(0,0,1);
-         for (float i = 0; i <= (2*PI)+0.2f; i += 0.2f ) glVertex3f(50*cosf(i),50*sinf(i),1);
-      glEnd();
-      glPopMatrix();
-      glRasterPos2f(50,10);
-      sprintf(puntos,"Toques: %i. Record: %i.", toques,record);
-      for (int i = 0; i<strlen(puntos); i++) glutBitmapCharacter(GLUT_BITMAP_HELVETICA_10, puntos[i]);
-   }
+#include "VW-new-beetle.h"
+#include "func.h"
 
-   void Iniciar() {
-      pos[0] = pos[1] = 300;
-      pos[2] = timer = toques = 0;
-      vel[0] = vel[1] = 25;
-      pausa = 1;
-   }
+int windowwidth;
+int windowheight;
+float rotateSpeed = 180.0f; /* degrees per second */
+int pause = False;
 
-   void Tocar(float x, float y) {
-      if ( sqrt( pow(x-pos[0],2) + pow(y-pos[1],2) ) <= 50 && click) {
-         timer = click = 0;
-         toques++;
-         if (record < toques) record = toques;
-         vel[0] = pos[0] - x;
-         vel[1] = fabs(pos[1] - y);
-         pausa = 0;
-      }
-   }
+void SetUpOpenGL();
+void SetUpLights();
+void DrawScene(float );
+float GetTimeInterval();
+void Resize(int , int);
 
-   void Avanzar() {
-      if (!pausa) {
-         timer++;
-         if (pos[0] > 750 || pos[0] < 50) vel[0] = -vel[0];
-         pos[0] += vel[0]*3 / 10;
-         pos[1] += (vel[1]*3 - timer) / 10;
-      }
-   }
 
-   void Perder() {
-      if (pos[1] < 50) Iniciar();
-   }
-} ball;
+GLubyte rojo[] = {255, 0, 0, 255};
+GLubyte verde[] = {0, 255, 0, 255};
+GLubyte azul[] = {0, 0, 255, 255};
+GLubyte blanco[] = {255, 255, 255, 255};
+GLubyte negro[] = {0, 0, 0, 255};
+GLubyte naranja[] = {255, 255, 0, 255};
+GLubyte morado[] = {255, 0, 255, 255};
 
-void PintarEscena() {
-   glMatrixMode(GL_PROJECTION);
-   glLoadIdentity();
-   glOrtho(0,800,0,600,-1,1);
 
-   glColor3f(0,0,0.1f);
-   glRectf(0,0,800,600);
+int main (int argc, char *argv[]) {
+	SDL_Event evento;
+	SDLKey key;
+	float x = 0.0, y = 0.0, z = -5.0;
+	int rotar = 0;
+	float t, T = 0.0;
+	int cnt = 0;
 
-   ball.Pintar();
 
-      glutSwapBuffers();
+	if (SDL_Init (SDL_INIT_VIDEO) < 0) {
+		fprintf (stderr, "Falló al inicializar SDL\n");
+		return 1;
+	}
+
+	SDL_GL_SetAttribute (SDL_GL_RED_SIZE, 5);
+	SDL_GL_SetAttribute (SDL_GL_GREEN_SIZE, 6);
+	SDL_GL_SetAttribute (SDL_GL_BLUE_SIZE, 5);
+	SDL_GL_SetAttribute (SDL_GL_DEPTH_SIZE, 16);
+	SDL_GL_SetAttribute (SDL_GL_DOUBLEBUFFER, 1);
+
+	if (SDL_SetVideoMode (640, 480, 16, SDL_OPENGL) == NULL) {
+		fprintf (stderr, "Falló la inicialización del video\n");
+		return 1;
+	}
+    SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY ,SDL_DEFAULT_REPEAT_INTERVAL);
+	SetUpOpenGL();
+	InitMesh();
+	GetTimeInterval();
+
+	float radio = (float) 640 / (float) 480;
+	gluPerspective (60.0, radio, 1.0, 1024.0);
+
+
+	do {
+		while (SDL_PollEvent (&evento) > 0) {
+			switch (evento.type) {
+				case SDL_QUIT:
+					SDL_Quit ();
+					return 0;
+					break;
+				case SDL_KEYDOWN:
+					key = evento.key.keysym.sym;
+					/* Eventos de teclas aquí */
+					switch(key){
+
+                        case SDLK_RIGHT:
+                            x++;
+                            break;
+                        case SDLK_LEFT:
+                            x--;
+                            break;
+                        case SDLK_UP:
+                            y++;
+                            break;
+                        case SDLK_DOWN:
+                            y--;
+                            break;
+                        case SDLK_a:
+                            z++;
+                            break;
+                        case SDLK_s:
+                            z--;
+                        case SDLK_r:
+                            rotar = (rotar + 1) % 360;
+                            break;
+                        case SDLK_SPACE:
+                            pause = !pause;
+                            break;
+                        default: x = x;
+
+					}
+					break;
+			}
+		} /* Procesar eventos */
+        Resize(640,480);
+        T += (t = GetTimeInterval());
+        DrawScene(t);
+        glFlush();
+		SDL_GL_SwapBuffers ();
+		SDL_Delay (32);
+		cnt++;
+        if (T > 1.0) {
+          printf("%f\n", (float) cnt / T);
+          T = 0.0;
+          cnt = 0;
+        }
+	} while (1);
+	return 0;
 }
 
-void ReProyectar(int w, int h) {
-   glutReshapeWindow(800,600);
-   glViewport(0, 0, w, h);
-
-      PintarEscena();
+void SetUpOpenGL() {
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  gluPerspective(45.0, (float) windowwidth / (float) windowheight, 0.15, 210.0);
+  glViewport(0, 0, windowwidth, windowheight);
+  glMatrixMode(GL_MODELVIEW);
+  glEnable(GL_DEPTH_TEST);
+  glDepthFunc(GL_LEQUAL);
+  glFrontFace(GL_CCW);
+  glEnable(GL_CULL_FACE);
+  glEnable(GL_NORMALIZE);
+  glShadeModel(GL_SMOOTH);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+  glColor4f(1, 1, 1, 1);
 }
 
-void Mover(int value) {
-   glutTimerFunc(16,Mover,1);
-   glutPostRedisplay();
+void SetUpLights() {
+  float pos[] = {10, 10, 10, 0};
+  float ambient[] = {0.3, 0.3, 0.3, 1};
+  float white[] = {1, 1, 1, 1};
 
-   ball.Tocar(raton[0],raton[1]);
-   ball.Avanzar();
-   ball.Perder();
+  glEnable(GL_LIGHTING);
+  glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
+  glEnable(GL_COLOR_MATERIAL);
+  glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+
+  glLightfv(GL_LIGHT0, GL_DIFFUSE, white);
+  glLightfv(GL_LIGHT0, GL_POSITION, pos);
+
+  glEnable(GL_LIGHT0);
 }
 
-void Raton(int button, int state, int x, int y) {
-   if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) click = 1;
-   if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) click = 0;
-   raton[0] = x;
-   raton[1] = 600 - y;
+
+void DrawScene(float dT) {
+  static float angle = 0.0f;
+  glClearColor(0, 0, 0, 0);
+  glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  gluLookAt(0, 10, 10,
+          0, 0, 0,
+          0, 0, 1); /* Up direction is Z-axis... like in Blende ;-) */
+
+  SetUpLights();
+
+  if (!pause)
+    angle += rotateSpeed * dT;
+  glTranslatef(0.0,-20.0,-20.0);
+  glRotatef(angle, 0, 0, 1);
+  DrawAllMeshes();
 }
 
-void RatonMov(int x, int y) {
-   raton[0] = x;
-   raton[1] = 600 - y;
+float GetTimeInterval() {
+  static struct timeval time = {0, 0};
+  static struct timeval last = {0, 0};
+  int sec, usec;
+
+
+  gettimeofday(&time, NULL);
+
+  sec = time.tv_sec - last.tv_sec;
+  usec = time.tv_usec - last.tv_usec;
+
+
+  last.tv_sec = time.tv_sec;
+  last.tv_usec = time.tv_usec;
+
+  sec *= 1000000;
+  sec += usec;
+
+  return (float) sec / 1.0e6;
 }
 
-int main(int argc, char **argv) {
-      glutInit(&argc,argv);
-   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-     glutInitWindowSize(800,600);
-     glutInitWindowPosition(40,40);
-     glutCreateWindow("Toke por HarZe");
-
-   ball.Iniciar();
-
-     glutReshapeFunc(ReProyectar);
-   glutDisplayFunc(PintarEscena);
-   glutMouseFunc(Raton);
-   glutMotionFunc(RatonMov);
-   glutPassiveMotionFunc(RatonMov);
-     glutTimerFunc(16,Mover,1);
-
-     glutMainLoop();
-   return 0;
+void Resize(int width, int height) {
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  gluPerspective(45.0, (float) width / (float) height, 0.15, 251.0);
+  glViewport(0, 0, width, height);
 }
