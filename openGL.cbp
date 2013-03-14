@@ -39,9 +39,10 @@
 			<Add library="GL" />
 			<Add library="X11" />
 		</Linker>
-		<Unit filename="dummy.h" />
 		<Unit filename="func.h" />
+		<Unit filename="include/Dummy.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="town.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

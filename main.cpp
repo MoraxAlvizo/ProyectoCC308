@@ -9,13 +9,14 @@
 #include <GL/glx.h>
 #include <sys/time.h>
 
-#include "dummy.h"
+#include "town.h"
 #include "func.h"
 
 int windowwidth;
 int windowheight;
-float rotateSpeed = 180.0f; /* degrees per second */
+float rotateSpeed = 60.0f; /* degrees per second */
 int pause = False;
+int zoom = 45;
 
 void SetUpOpenGL();
 void SetUpLights();
@@ -89,6 +90,12 @@ int main (int argc, char *argv[]) {
                         case SDLK_r:
                             rotar = (rotar + 1) % 360;
                             break;
+                        case SDLK_z:
+                            zoom++;
+                            break;
+                        case SDLK_x:
+                            zoom--;
+                            break;
                         case SDLK_SPACE:
                             pause = !pause;
                             break;
@@ -155,9 +162,7 @@ void DrawScene(float dT) {
   glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  gluLookAt(0, 10, 10,
-          0, 0, 0,
-          0, 0, 1); /* Up direction is Z-axis... like in Blende ;-) */
+  gluLookAt(0, 10, 10, 0, 0, 0, 0, 0, 1); /* Up direction is Z-axis... like in Blende ;-) */
 
   SetUpLights();
 
@@ -192,6 +197,6 @@ float GetTimeInterval() {
 void Resize(int width, int height) {
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluPerspective(45.0, (float) width / (float) height, 0.15, 251.0);
+  gluPerspective(zoom, (float) width / (float) height, 0.15, 251.0);
   glViewport(0, 0, width, height);
 }
