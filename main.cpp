@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+// Funcion el git en windows
 #define GL_GLEXT_PROTOTYPES
 
 #include <SDL.h>
