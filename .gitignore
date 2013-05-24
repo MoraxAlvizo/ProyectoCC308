@@ -1,0 +1,9 @@
+# -- Ignorar --------------------
+ProyectoVideojuego/Debug/*
+*.vcxproj*
+*.sdf
+*.DLL
+*.dll
+Debug/*
+*.sln
+*.suo
